@@ -25,7 +25,7 @@ namespace Collections
            // OriginalTextFileProcessor.savePeopleToFile(listOfPeople);
 
             //OriginalTextFileProcessor.ReadFormFile();
-            #endregion s
+            #endregion 
 
             //ESERCIZIO LOGS CON GENERICS
             List<LogEntry> logsToSaveToFile = new List<LogEntry>();

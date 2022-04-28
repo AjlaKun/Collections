@@ -32,7 +32,7 @@ namespace Collections.Utils_generic
             foreach (var riga in lines)
             {
                 T logClass = new T();
-                var proprietaDiClasse = logClass.GetType().GetProperties();
+                var proprietaDiClasse = logClass.GetType().GetProperties();//do not use reflection often cuz it slows down application
 
                 var valori = riga.Split(",");
 
@@ -51,41 +51,45 @@ namespace Collections.Utils_generic
             return logList;
         }
            
-        public static void SaveToTextFile<T>(List<T> data, string filePath) where T : class
+        public static void SaveToTextFile<T>(List<T> data, string filePath) where T : class //T deve essere una classe
         {
-            List <string> lines = new List<string>();
-            StringBuilder line = new StringBuilder();
+            List <string> lines = new List<string>(); // creo una lista lines che devo popolare con oggetto line 
+            StringBuilder line = new StringBuilder();// creo oggetto line di StringBuilder
            
 
-            var cols = data[0].GetType().GetProperties();
-            foreach (var col in cols)
+            var cols = data[0].GetType().GetProperties();// creo un oggetto cols che prende proprietta di tipo T
+            foreach (var col in cols)// faccio un ciclo per prendere tutti nomi di proprieta per creare header
             { 
                
                 line.Append(col.Name);
-                line.Append(",");
+                line.Append(",");// dopo ogni nome di proprieta va virgola
             }
-            lines.Add(line.ToString().Substring(0,line.Length -1));
+            
+            lines.Add(line.ToString().Substring(0,line.Length -1)); //aggiunge liena header in lista lines converte linea in string e con substring prende da 0 a length di linea
+               
             
             foreach (var row in data)
             {
                
-                line = new StringBuilder();
+                line = new StringBuilder(); //per non svrascivere la linea precedente crea una nuova linea pulita per salvare i valori dentro
                 foreach (var col in cols)
                 {
                    
-                    line.Append(col.GetValue(row));
-                    line.Append(",");
+                    line.Append(col.GetValue(row));//prenede valore di ogni singola proprietà
+                    line.Append(",");// li divide con virgola
                    
                 }
 
-                lines.Add(line.ToString().Substring(0, line.Length - 1));
+                lines.Add(line.ToString().Substring(0, line.Length - 1));// dopo averr ciclato tutti i valori di lista data di tipo T gli salva in lisa lines
                 
             }
-            File.WriteAllLines(filePath,lines);
+            File.WriteAllLines(filePath,lines); // scrive valori dela lista lines sul path 
         }
 
+  
 
-        
+
+
 
 
 
