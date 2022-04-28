@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Collections.Utils_generic;
 
 namespace Collections
 {
@@ -11,6 +12,7 @@ namespace Collections
     {
         static void Main(string[] args)
         {
+            #region esercizio persona senza generics
             //create list of people
             List<People> listOfPeople = new List<People>();
             People person1 = new People(1, "Sara",true);
@@ -20,20 +22,44 @@ namespace Collections
             People person3 = new People(3, "Emma",false);
             listOfPeople.Add(person3);
 
-            OriginalTextFileProcessor.savePeopleToFile(listOfPeople);
+           // OriginalTextFileProcessor.savePeopleToFile(listOfPeople);
 
-            OriginalTextFileProcessor.ReadFormFile();
-          
+            //OriginalTextFileProcessor.ReadFormFile();
+            #endregion s
 
-            // 2 -  Use the the same file to Load data from FILE to a List of PEOPLE 
+            //ESERCIZIO LOGS CON GENERICS
+            List<LogEntry> logsToSaveToFile = new List<LogEntry>();
+            LogEntry logEntry1 = new LogEntry();
+            logEntry1.ErrorCode = 400;
+            logEntry1.Message = "Bad request error";
+            logEntry1.timeOfEvent = DateTime.Now;
+            logsToSaveToFile.Add(logEntry1);
 
+            LogEntry logEntry2 = new LogEntry();
+            logEntry2.ErrorCode = 500;
+            logEntry2.Message = "Internal server error";
+            logEntry2.timeOfEvent = DateTime.Now;
+            logsToSaveToFile.Add(logEntry2);
 
-            // 3 -  Print out all the PEOPLE properties from file 
+            LogEntry logEntry3 = new LogEntry();
+            logEntry3.ErrorCode = 600;
+            logEntry3.Message = "Non specified description";
+            logEntry3.timeOfEvent = DateTime.Now;
+            logsToSaveToFile.Add(logEntry3);
 
-            // use a utility class to create STANDARD METHODS to manager both situation !!
-            // USE FILE STATIC FILE PATH !!!
+            string logFile = @"C:\Users\Ajla\Desktop\corso_cgm\logs\logs.txt";
+            GenericsTextFileProcessor.SaveToTextFile(logsToSaveToFile, logFile);
+
+            var logsFromTextFile = GenericsTextFileProcessor.LoadFromTextFile<LogEntry>(logFile);
+            {
+                foreach (var log in logsFromTextFile)
+                {
+                    Console.WriteLine("Error code: " + log.ErrorCode + " Error Message: " + log.Message + " Time of event: " + log.timeOfEvent);
+                }
+            }
+
         }
-        // Create a method to populate MockData
-        
+
+
     }
 }
